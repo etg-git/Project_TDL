@@ -1,10 +1,10 @@
 # One Day
 ---
-#### ```한 것들```
+#### 한 것들
 
-* To Do List 프로젝트 생성
+* ```To Do List 프로젝트 생성```
 
-* ToDo.java 생성
+* ```ToDo.java 생성```
 ~~~java
 //ToDo.java
 package com.taegyun.tdl.domain;
