@@ -18,11 +18,11 @@
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>ToDoList</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{/css/base.css}" />
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  //bootstrap
+    <title>ToDoList</title>//bootstrap
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>//bootstrap
+    <link rel="stylesheet" th:href="@{/css/base.css}" />//bootstrap
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" /> //bootstrap
 </head>
 <body>
 <!--<div th:replace="layout/header::header"></div>-->
@@ -34,7 +34,7 @@
     </div>
     <br/><br/><br/>
     <div id="mainHide">
-        <table class="table table-striped">
+        <table class="table table-striped"> << bootstrap
             <tr>
                 <th class="col-md-1">#</th>
                 <th class="col-md-2">완료 여부</th>
