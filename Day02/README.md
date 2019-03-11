@@ -15,6 +15,7 @@
 ####
 * ```TimeZone 설정 : url: jdbc:mysql://127.0.0.1:3306/tdl_db?serverTimezone=Asia/Seoul```
 ---
+#### list.html
 ~~~html
 <!DOCTYPE html>
 
