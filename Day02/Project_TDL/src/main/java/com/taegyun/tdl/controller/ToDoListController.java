@@ -1,0 +1,35 @@
+package com.taegyun.tdl.controller;
+
+import com.taegyun.tdl.service.ToDoListService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@Controller
+@RequestMapping("/toDoList")
+public class ToDoListController {
+    @Autowired
+    ToDoListService toDoListService;
+
+    @GetMapping({"", "/"})
+    public String toDoList(@RequestParam(value = "idx", defaultValue = "0") Long idx,
+                           Model model) {
+        model.addAttribute("toDoListList", toDoListService.findToDoListByIdx(idx));
+
+        return "/toDoList/form";
+    }
+
+    @GetMapping("/list")
+    public String list(@PageableDefault Pageable pageable, Model model) {
+        model.addAttribute("toDoListList", toDoListService.findToDoList());
+        return "/toDoList/list";
+    }
+}
+
+
