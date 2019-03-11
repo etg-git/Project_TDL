@@ -10,6 +10,10 @@
 * ```To Do List html만들기```
 ####
 * ```Boot Strap 적용하기```
+####
+* ```MySQL연결 및 Schema(tdl_db), User(spring_boot) 생성```
+####
+* ```TimeZone 설정 : url: jdbc:mysql://127.0.0.1:3306/tdl_db?serverTimezone=Asia/Seoul```
 ---
 ~~~html
 <!DOCTYPE html>
