@@ -76,6 +76,8 @@
 ---
 #### 집에서 보충한것들
 * ```웹 디자인 바꾸기```
+
+#### list.html
 ~~~html
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
