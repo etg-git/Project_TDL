@@ -7,7 +7,7 @@
 #### 2019-03-11
 ##### [```2일차(클릭)```](https://github.com/etg6550/Project_TDL/tree/master/Day02)
 #### 2019-03-xx
-##### [```2일차(클릭)```](https://github.com/etg6550/Project_TDL/tree/master/Day03)
+##### [```3일차(클릭)```](https://github.com/etg6550/Project_TDL/tree/master/Day03)
 
 ---
 |DAY|CONTENT|
