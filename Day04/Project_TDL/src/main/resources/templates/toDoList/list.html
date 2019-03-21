@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/bootstrap/css/todolist.css}" />
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-responsive.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body  style="font-family:verdana;">
+<!--<div th:replace="layout/header::header"></div>-->
+<style>
+#footer {
+
+position:absolute;
+
+bottom:0;
+
+width:100%;
+
+height:70px;
+
+background: #9acfea;
+
+}
+</style>
+<div class="container-fluid">
+    <div class="page-header" style="background :#9acfea; text-align: center">
+        <h2><b>To Do List</b></h2>
+    </div>
+    <br/><br/><br/>
+    <div id = "mainHide">
+        <table class="table table-hover">
+            <thead>
+            <!--<form class="form-inline" method="post" action="/save">-->
+            <div class="head2">
+               <h4><form>
+                       등록하세요 :
+                            <input id = "content" type="text" style="width:10%; height: 20%"> </form>
+                <button type="button" class="reg btn btn-default btn-info"><i class="icon-search icon-ok"></i></button>
+                <!--<button type="button" id="alldelete">삭제</button>--></h4>
+                </h4>
+            </div>
+            <div>
+
+            <button class="show btn btn-large btn-success"><i class="icon-search icon-hand-down"></i></button>
+            <div class = "showing">
+                <input id = "text1" type="text" placeholder="수정하세요" style="width:10%; height: 20%">
+            </div>
+            </div>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-1">Status</th>
+                <th class="col-md-5">Content</th>
+                <th class="col-md-2">Create</th>
+                <th class="col-md-2">Complete</th>
+                <th class="col-md-1">Update</th>
+                <th class="col-md-1">Delete</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="toDoList : ${toDoList}" >
+                <td th:text="${toDoList.idx}"></td>
+                <td th:text="${toDoList.status}"></td>
+                <td th:text="${toDoList.description}"> </td>
+                <td th:text="${toDoList.createdDate} ? ${#temporals.format(toDoList.createdDate,'yyyy-MM-dd HH:mm')} : ${toDoList.createdDate}"></td>
+                <td th:text="${toDoList.completedDate} ? ${#temporals.format(toDoList.completedDate,'yyyy-MM-dd HH:mm')} : ${toDoList.completedDate}">
+                </td>
+                <!--<td>-->
+                    <!--&lt;!&ndash;<input id="tdl_created_date" type="hidden" th:value="${toDoList?.createdDate}">&ndash;&gt;-->
+                   <!---->
+                    <!--</td>-->
+                <td>
+                    <button class="update btn btn-large btn-success" th:value="${toDoList.idx}"><i class="icon-search icon-edit"></i></button> </td>
+                <td>
+                    <button class="delete btn btn-large btn-danger" th:value="${toDoList.idx}"><i class="icon-search icon-trash" ></i></button></td>
+
+
+            </tr>
+            </tbody>
+            <div id="footer" style="text-align:center">
+                <h2><b>MADE TAEGYUN</b></h2>
+            </div>
+        </table>
+    </div>
+    <br/>
+
+</div>
+
+<script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+
+<script>
+    $('.reg').click(function() {
+        var jsonData = JSON.stringify({
+             description: $('#content').val(),
+            status : true,
+            completedDate : null
+        });
+
+        $.ajax({
+            url : "/api/toDoLists",
+            type : "POST",
+            data : jsonData,
+            contentType : "application/json",
+            dataType: "json",
+            success : function() {
+                location.href = '/toDoList/list';
+            },
+            error : function() {
+                alert('등록x');
+            }
+        });
+    });
+    </script>
+<script>
+    $('.delete').click(function() {
+        $.ajax({
+            url: "/api/toDoLists/" + $(this).val(),
+            type: "DELETE",
+            success: function () {
+                location.href = '/toDoList/list';
+            },
+            error:function() {
+                alert('삭제x');
+            }
+        });
+    });
+    </script>
+<script>
+    $('.update').click(function() {
+        var jsonData = JSON.stringify({
+            description : $('#text1').val(),
+            status: true
+        });
+
+        console.log($(this).val());
+        $.ajax({
+            url: "/api/toDoLists/update/" + $(this).val(),
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: "json",
+            success: function() {
+                location.href = '/toDoList/list';
+            },
+            error: function() {
+                alert('수정x');
+            }
+        });
+    });
+
+    $('.showing').hide();
+    $('.show').click(function() {
+        if($(".showing").css("display") == "none"){
+            $(".showing").show();
+        }else{
+            $(".showing").hide();
+        }
+    });
+    $.ajax({
+        url: "/api/toDoLists/" + $(this).val(),
+        success: function() {
+            location.href = '/toDoList/list';
+        },
+    });
+
+    //     var x = document.hidden("showing");
+    //     if (x.style.display === "block") {
+    //         x.style.display = "none";
+    //     } else {
+    //         x.style.display = "block";
+    //     }
+    // });
+    // $.ajax({
+    //     url: "/api/toDoLists/" + $(this).val(),
+    // });
+</script>
+</body>
+</html>
