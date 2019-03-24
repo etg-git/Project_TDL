@@ -15,7 +15,7 @@
 * ```view 수정 완성본```
 ---
 #### view  
-![image](/capture/todolist05.PNG)
+![image](/capture/todolist05.png)
 ---
 #### database
 ![image](/capture/todolist04.PNG)
