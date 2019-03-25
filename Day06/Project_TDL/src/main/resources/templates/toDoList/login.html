@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>로그인</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/bootstrap/css/style.css">
+    <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+</head>
+<body>
+<div class="login-form" style="text-align:center;">
+    <form>
+        <img src="/bootstrap/img/logo2.png" style="width: 130px;height:130px" >
+    </form>
+    <form
+    >
+
+
+        <input type="text" name="name" class="hello" placeholder="아이디" id="id"><br>
+        <input type="password" name="password" class="hello" placeholder="비밀번호" id = "password"><br>
+        <button value="로그인" class="submit-btn">로그인</button>
+    </form>
+
+    <div class="links">
+        <a href="http://localhost:8080/toDoList/register">ID가 없나요?</a>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+    <script>
+        $('.submit-btn').click(function() {
+            var jsonData = JSON.stringify({
+                id: $('#id').val(),
+                password : $('#password').val()
+            });
+            alert(jsonData);
+            $.ajax({
+                url : "/toDoList/api/login",
+                type : "POST",
+                data : jsonData,
+                contentType : "application/json",
+                dataType: "json",
+                success: function () {
+                    $.ajax({
+                        url: "/toDoList/complete",
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function () {
+                            location.href = '/toDoList/list';
+                        },
+                        error: function () {
+                            alert('땡떙떙');
+                        }
+                    });
+                    location.href = '/toDoList/list';
+                },
+                error: function () {
+                    alert('땡땡땡');
+                }
+            });
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>회원가입</title>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="/bootstrap/css/style.css">
+            <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        </head>
+<body>
+<div class="login-form" style="text-align: center;">
+    <form>
+        <img src="/bootstrap/img/logo2.png"  style="width: 130px;height:130px">
+    </form>
+    <form onsubmit="return false">
+        <input id = "user_id" type="text" name="name"  placeholder="id" class = "hello"><br>
+        <input id = "user_password" type="password" name="password" placeholder="password" class ="hello"><br>
+        <input id = "user_email" type="email" name="email"  placeholder="email" class = "hello"><br>
+            <button type="text" class="submit-btn">회원가입</button>
+    </form>
+    <div class="links">
+        <a href="http://localhost:8080/toDoList/login">뒤로가기</a>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+<script>
+    $('.submit-btn').click(function() {
+        var jsonData = JSON.stringify({
+            id: $('#user_id').val(),
+            password : $('#user_password').val(),
+            email:$('#user_email').val()
+        });
+
+        $.ajax({
+            url : "/toDoList/api/register",
+            type : "POST",
+            data : jsonData,
+            contentType : "application/json",
+            dataType: "json",
+            success : function() {
+                location.href = '/toDoList/login';
+            },
+            error : function() {
+                alert('등록x');
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
