@@ -14,3 +14,13 @@
 
 4. ```임의로 만든 각 사용자마다 새 리스트 주게끔 구현```
     * ```repository : findByAllOrderByIdxAsc(User user);```
+
+5. ```입력 버튼 생성```
+    * ```complete 버튼을 눌릴때, 현재시간과 업데이트버튼 사라지게 구현```
+
+---
+
+##### 뷰 수정
+----
+![image](/capture/todolist08.png)
+---
