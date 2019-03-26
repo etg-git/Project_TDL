@@ -7,4 +7,4 @@
 
 * ```view 수정```
 
-![image](/capture/todolist10.PNG)
+![image](/capture/todolist10.png)
