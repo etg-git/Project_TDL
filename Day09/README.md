@@ -36,23 +36,23 @@
 #### 스크린샷
 ```아이디, 비밀번호, 이메일 빈칸일때```
 #####
-![image](/capture/todolist15.PNG)
+![image](/capture/todolist15.png)
 
 ```이메일 형식이 맞지 않을때```
 #####
-![image](/capture/todolist14.PNG)
+![image](/capture/todolist14.png)
 
 ```아이디가 빈칸일때```
 #####
-![image](/capture/todolist13.PNG)
+![image](/capture/todolist13.png)
 
 ```아이디, 비밀번호, 이메일 형식이 다 맞을때```
 #####
-![image](/capture/todolist16.PNG)
+![image](/capture/todolist16.png)
 
 ```비밀번호 8자 이상이 아닐때```
 #####
-![image](/capture/todolist12.PNG)
+![image](/capture/todolist12.png)
 
 ```회원가입 되었을때 현재의 DB```
 #####
