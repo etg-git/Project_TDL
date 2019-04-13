@@ -38,7 +38,7 @@ $('.comment').click(function () {
            content : test
        });
        $.ajax({
-           url : "/comment/a" + $(this).val(),
+           url : "/comment/" + $(this).val(),
            type : "POST",
            data : jsonData,
            contentType : "application/json",
