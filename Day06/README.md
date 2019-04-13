@@ -21,6 +21,7 @@
 ---
 
 ##### 뷰 수정
-----
 ![image](/capture/todolist08.png)
 ---
+##### database
+![image](/capture/todolist09.PNG)
