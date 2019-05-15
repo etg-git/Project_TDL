@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/bootstrap/css/todolist.css}" />
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-responsive.css}" />
+    <link rel="stylesheet" th:href="@{/bootstrap/img/logo.jpg}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="font-family:verdana;">
+<div class="container">
+    <div class="page-header" style="text-align: center; background-color: #b3b3b3; width:100%; height: 70px;">
+        <h2>To Do List</h2>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+
+    <div id = "mainHide" style="text-align: center;">
+        <form onsubmit="return false">
+            <input id = "content" type="text" maxlength="30"  style="width:30%; height: 50%;margin-left: 400px;">
+
+            <button type="submit" class="reg btn btn-default btn-primary"><i class="icon-search icon-ok"></i></button>
+            <a href="/logout">
+            <button type="button" class="logout btn btn-warning" style="float:right"><i class = "icon-search icon-warning-sign"></i></button>
+            </a>
+        </form>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+        <div>
+            <div class ="body-design" th:each="toDoList : ${toDoList}">
+                <div>
+                    <span th:if="${toDoList.status}" class ="status btn btn-large btn-link" th:value="${toDoList.idx}"><i class = "icon-search icon-ok-sign"></i></span>
+                    <span th:if="!${toDoList.status}" class ="status btn btn-large btn-link" th:value="${toDoList.idx}"><i class = "icon-search icon-ok-circle"></i></span>
+                <h4 class="content2" th:text="${toDoList.description}" contenteditable="true" style="color : dodgerblue"></h4>
+                </div>
+                    <button th:if="!${toDoList.status}" class="update2 btn btn-large btn-link" th:value="${toDoList.idx}" contenteditable="true"><i class="icon-search icon-refresh" ></i></button>
+                    <span th:if="${toDoList.status}"></span>
+                <br/>
+                <div style="margin-right: 800px;" th:text="${toDoList.createdDate} ? ${#temporals.format(toDoList.createdDate,'yyyy-MM-dd HH:mm')} : ${toDoList.createdDate}"></div>
+                <br/>
+                <div style="margin-right: 800px;" th:text="${toDoList.completedDate} ? ${#temporals.format(toDoList.completedDate,'yyyy-MM-dd HH:mm')} : ${toDoList.completedDate}"></div>
+
+
+                <div style="margin-left: 800px;">
+                    <button class ="complete btn btn-large btn-link" th:value="${toDoList.idx}"><i class = "icon-search icon-check" ></i></button>
+                    <button class="delete btn btn-large btn-link" th:value="${toDoList.idx}"><i class="icon-search icon-trash" ></i></button>
+                    <button class="reply btn btn-large btn-link" th:value="${toDoList.idx}"><i class="icon-search icon-user" ></i></button>
+                </div>
+                    <div class ="showing2" style="display : none;">
+                        <input id = "reply" type="text" placeholder="댓글 입력하세요..." style="width:70%; height: 20%; margin-top : 20px;">
+                        <button class = "comment btn btn-small btn-success" th:value = "${toDoList.idx}"> <i class = "icon-search icon-tags"></i></button>
+                    </div>
+
+                    <div class = "reply"  th:each="comment : ${toDoList.comments}" style="display: none; border: ridge; border-color: #bce8f1; border-radius: 10px;">
+                        <h5 class ="comment2" th:text="${comment.content}" contenteditable="true" style="color: dodgerblue;"></h5>
+                        <div style="margin-right:800px;" th:text="${comment.createdDate} ? ${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm')} : ${comment.createdDate}"></div>
+                        <div style="margin-right:800px;" th:text="${comment.modifiedDate} ? ${#temporals.format(comment.modifiedDate,'yyyy-MM-dd HH:mm')} : ${comment.modifiedDate}"></div>
+                        <div style="margin-left: 800px;">
+                        <button class = "repUpdate btn btn-large btn-link" th:value="${comment.idx}"><i class="icon-search icon-refresh"></i></button>
+                        <button class = "repDelete btn btn-large btn-link" th:value="${comment.idx}"><i class="icon-search icon-trash"></i></button>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+            <div class="footer" style="text-align:center; background-color: #b3b3b3;">
+                <h2>MADE TAEGYUN</h2>
+            </div>
+
+    </div>
+
+</div>
+
+<script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+<script>
+    $('.repUpdate').click(function() {
+        var jsonData =  $(this).parent().parent().find('.comment2').text();
+        var tx = $(this).val();
+        
+        $.ajax({
+            url: "/comment/repUpdate/" + tx,
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: 'text',
+            success: function() {
+                location.href = '/toDoList/list';
+            },
+            error: function() {
+                alert('수정x');
+            }
+        });
+    });
+</script>
+<script>
+    $('.repDelete').click(function () {
+        $.ajax({
+            url: "/comment/repDelete/" + $(this).val(),
+            type: "DELETE",
+            success: function () {
+                location.href = '/toDoList/list';
+            },
+            error:function() {
+                alert('삭제x');
+            }
+        });
+    });
+</script>
+<script>
+    $('.showing2').hide();
+    $('.reply').click(function() {
+
+        var replyBtn = $(this).parent().parent().find('.showing2');
+        replyBtn.fadeToggle('slow');
+
+        var reply = $(this).parent().parent().find('.reply');
+        reply.fadeToggle('slow');
+    });
+</script>
+<script>
+    $('.comment').click(function () {
+        var commentBtn = $(this).parent().parent().find('.showing2 input');
+        var node = $(this).val() - 1;
+        var test = $('.showing2 input').eq(node).val();
+
+        var jsonData = JSON.stringify({
+            content : test
+        });
+        $.ajax({
+            url : "/comment/" + $(this).val(),
+            type : "POST",
+            data : jsonData,
+            contentType : "application/json",
+            dataType : "json",
+            success : function () {
+                location.href = "/toDoList/list";
+            },
+            error : function () {
+                alert('댓글x');
+            }
+        });
+    });
+</script>
+<script>
+    $('.reg').click(function() {
+
+        var jsonData = JSON.stringify({
+             description: $('#content').val(),
+            status :  null,
+            completedDate : null
+        });
+
+        $.ajax({
+            url : "/toDoList",
+            type : "POST",
+            data : jsonData,
+            contentType : "application/json",
+            dataType: "json",
+            success : function() {
+                location.href = '/toDoList/list';
+            },
+            error : function() {
+                alert('등록x');
+            }
+        });
+    });
+    </script>
+<script>
+    $('.delete').click(function() {
+        $.ajax({
+            url: "/toDoList/delete/" + $(this).val(),
+            type: "DELETE",
+            success: function () {
+                location.href = '/toDoList/list';
+            },
+            error:function() {
+                alert('삭제x');
+            }
+        });
+    });
+    </script>
+<script>
+    $('.update2').click(function() {
+        var jsonData =  $(this).parent().find('.content2').text();
+        var tx = $(this).val();
+
+
+        $.ajax({
+            url: "/toDoList/update/" + tx,
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: 'text',
+            success: function() {
+                location.href = '/toDoList/list';
+            },
+            error: function() {
+                alert('수정x');
+            }
+        });
+    });
+
+    $('.complete').click(function() {
+        var jsonData = JSON.stringify({
+            status : true
+    });
+        $.ajax({
+            url: "/toDoList/update2/" + $(this).val(),
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: "json",
+            success: function() {
+                location.href = '/toDoList/list';
+            },
+            error: function() {
+                alert('수정x');
+            }
+        });
+    });
+    </script>
+<script>
+    $('.showing').hide();
+    $('.update').click(function() {
+        var jsonData = JSON.stringify({
+
+        });
+        if($(".showing").css("display") == "none"){
+            $(".showing").show();
+            $(".show3").hide();
+        }else{
+            $(".showing").hide();
+            $(".show3").show();
+        }
+    $.ajax({
+        url: "/toDoList/show",
+        type: "PUT",
+        data: jsonData,
+        contentType: "application/json",
+        dataType: "json",
+        success: function() {
+            location.href = '/toDoList/list';
+        }
+    });
+    });
+</script>
+
+<script>
+    $('.status').show(function () {
+    });
+        $.ajax({
+            url: "/toDoList/status/" + $(this).val(),
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function () {
+                location.href = "/toDoList/list";
+            },
+            error : function () {
+                alert("실패")
+            }
+        });
+</script>
+
+</body>
+</html>

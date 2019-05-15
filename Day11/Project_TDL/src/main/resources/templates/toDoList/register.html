@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class = "image" lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>회원가입</title>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="/bootstrap/css/style.css">
+            <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        </head>
+<body>
+<div class="login-form" style="text-align: center;">
+    <form>
+        <img src="/bootstrap/img/logo2.png"  style="width: 130px;height:130px">
+    </form>
+    <form onsubmit="return false">
+        <input id = "user_id" type="text" name="id"  placeholder="id" class = "hello"><br>
+        <span id = "checkMsg1"></span>
+        <input id = "user_password" type="password" name="password" placeholder="password" class ="hello"><br>
+        <span id = "checkMsg2"></span>
+        <input id = "user_email" type="email" name="email"  placeholder="email" class = "hello"><br>
+        <span id = "checkMsg3"></span>
+            <button type="text" class="submit-btn">회원가입</button>
+        <!--<button type="text" id="confirm-btn">중복체크</button>-->
+    </form>
+    <div class="links">
+        <a href="http://localhost:8080/login">뒤로가기</a>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+<script>
+
+   /* $('#confirm-btn').click(function() {
+        var idData = JSON.stringify({
+            uid: $('#user_id').val()
+        });
+
+        $.ajax({
+            url : "/register/dto",
+            type : "POST",
+            data : idData,
+            contentType : "application/json",
+            dataType: "json",
+            success : function() {
+                alert('사용가능한 아이디입니다.');
+                n = 1;
+            },
+            error : function() {
+                alert('중복된 아이디입니다');
+            }
+        });
+    });
+    */
+   var n = 0;
+   $('#user_id').blur(function () {
+       if($('#user_id').val() === "") {
+           $('#checkMsg1').html('<span style ="color:red;"> 아이디를 입력해주세요. </span>')
+       }
+       else {
+
+           var idData = JSON.stringify({
+               uid: $('#user_id').val(),
+           });
+
+           $.ajax({
+               url: "/register/dto",
+               type: "POST",
+               data: idData,
+               contentType: "application/json",
+               dataType: "json",
+               success: function () {
+                   $('#checkMsg1').html('<span style="color:blue;"> 사용가능한 아이디입니다. </span>')
+                   n=1;
+               },
+               error: function () {
+                   $('#checkMsg1').html('<span style="color:red;"> 중복입니다. </span>')
+                   n=0;
+               }
+           });
+       }
+   });
+
+   $('#user_password').blur(function () {
+
+       if($('#user_password').val() === "" || $('#user_password').val().length < 7) {
+           $('#checkMsg2').html('<span style ="color:red;"> 비밀번호를 8자 이상 입력해주세요. </span>')
+       }
+
+       else $('#checkMsg2').html('<span style="color:blue;"> 사용가능한 비밀번호입니다.</span>')
+
+
+   });
+
+   $('#user_email').blur(function () {
+       var getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
+
+       if($('#user_email').val() === "") {
+           $('#checkMsg3').html('<span style = "color:red;"> 이메일 입력해주세요.</span>')
+       }
+       else if(!getMail.test($('#user_email').val())) {
+           $('#checkMsg3').html('<span style = "color:red;"> 이메일 형식에 맞게 입력해주세요.</span>')
+       }
+       else  $('#checkMsg3').html('<span style = "color:blue;"> 사용가능한 이메일입니다.</span>')
+
+   });
+
+   $('.submit-btn').click(function() {
+       if(n===0) {
+           alert('회원가입을 할 수 없습니다');
+       }
+        if(n===1) {
+           var jsonData = JSON.stringify({
+               uid: $('#user_id').val(),
+               upassword: $('#user_password').val(),
+               uemail: $('#user_email').val()
+           });
+
+           $.ajax({
+               url: "/register",
+               type: "POST",
+               data: jsonData,
+               contentType: "application/json",
+               dataType: "json",
+               success: function () {
+                   location.href = '/login';
+               },
+               error: function () {
+                   alert('회원가입을 할 수 없습니다');
+               }
+           });
+       }
+   });
+</script>
+
+</body>
+</html>
